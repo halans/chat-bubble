@@ -1,0 +1,4 @@
+OPENAI_API_KEY=<your-key>
+OPENAI_MODEL=<an openai model to use>
+SYSTEM_PROMPT=<your custom system prompt>
+FRONTEND_CENTERED=false
