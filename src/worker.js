@@ -58,8 +58,10 @@ export default {
                     openAIMessages.push({ role: "system", content: systemPrompt });
                 }
 
-                // Call OpenAI API
-                const openAIResponse = await fetch("https://api.openai.com/v1/chat/completions", {
+                // Call OpenAI API with Timeout
+                const TIMEOUT_MS = 25000; // 25 seconds (Cloudflare worker limit is often 30s)
+
+                const fetchPromise = fetch("https://api.openai.com/v1/chat/completions", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -71,10 +73,16 @@ export default {
                     })
                 });
 
+                const timeoutPromise = new Promise((_, reject) => {
+                    setTimeout(() => reject(new Error("Gateway Timeout")), TIMEOUT_MS);
+                });
+
+                const openAIResponse = await Promise.race([fetchPromise, timeoutPromise]);
+
                 if (!openAIResponse.ok) {
                     const errorText = await openAIResponse.text();
                     console.error("OpenAI Error:", errorText);
-                    throw new Error(`OpenAI API error: ${openAIResponse.status}`);
+                    throw new Error(`OpenAI API error: ${openAIResponse.status} - ${errorText}`);
                 }
 
                 const data = await openAIResponse.json();

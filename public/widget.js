@@ -289,7 +289,16 @@
                 body: JSON.stringify({ messages: payloadMessages })
             });
 
-            if (!response.ok) throw new Error('Network response was not ok');
+            if (!response.ok) {
+                let errorMessage = 'Network response was not ok';
+                try {
+                    const errorData = await response.json();
+                    if (errorData.error) errorMessage = errorData.error;
+                } catch (e) {
+                    // Could not parse JSON error, stick with default
+                }
+                throw new Error(errorMessage);
+            }
 
             const data = await response.json();
             debugLog('Response Data:', data);
@@ -311,7 +320,7 @@
         } catch (error) {
             console.error('Error:', error);
             removeMessage(loadingId);
-            addMessageToDOM('Sorry, something went wrong. Please try again.', 'error');
+            addMessageToDOM(`Error: ${error.message}`, 'error');
         }
     }
 
