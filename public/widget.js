@@ -44,8 +44,8 @@
                 <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
             </div>
             <div class="chat-expand-btn">
-                <svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>
-                <svg viewBox="0 0 24 24" style="display:none"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>
+                <svg class="icon-expand" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>
+                <svg class="icon-collapse" viewBox="0 0 24 24" style="display:none"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>
             </div>
         </div>
         <div class="chat-messages" id="chat-messages">
@@ -106,10 +106,21 @@
             if (config.themeColor) {
                 document.documentElement.style.setProperty('--chat-primary', config.themeColor);
                 document.documentElement.style.setProperty('--chat-user-bg', config.themeColor);
-                document.documentElement.style.setProperty('--chat-primary-hover', config.themeColor); // Simple fallback
+                document.documentElement.style.setProperty('--chat-primary-hover', config.themeColor);
             }
             if (config.themeAccentColor) {
                 document.documentElement.style.setProperty('--chat-accent', config.themeAccentColor);
+            }
+
+            // Header Visibility Logic
+            const headerEl = document.getElementById('chat-header');
+            if (config.showHeader) {
+                if (headerEl) headerEl.style.display = 'flex';
+                // Only hide footer expand if header expand is available/shown
+                if (expandBtn) expandBtn.style.display = 'none';
+            } else {
+                if (headerEl) headerEl.style.display = 'none';
+                if (expandBtn) expandBtn.style.display = 'flex';
             }
 
             // Apply Explanation Text
@@ -140,15 +151,25 @@
         const isExpanded = window.classList.toggle('expanded');
         debugLog('Toggle Expand:', isExpanded);
 
-        if (expandBtn) {
-            if (isExpanded) {
-                expandBtn.querySelector('.icon-expand').style.display = 'none';
-                expandBtn.querySelector('.icon-collapse').style.display = 'block';
-            } else {
-                expandBtn.querySelector('.icon-expand').style.display = 'block';
-                expandBtn.querySelector('.icon-collapse').style.display = 'none';
+        const updateIcons = (btn) => {
+            if (btn) {
+                const expandIcon = btn.querySelector('.icon-expand');
+                const collapseIcon = btn.querySelector('.icon-collapse');
+                if (expandIcon && collapseIcon) {
+                    if (isExpanded) {
+                        expandIcon.style.display = 'none';
+                        collapseIcon.style.display = 'block';
+                    } else {
+                        expandIcon.style.display = 'block';
+                        collapseIcon.style.display = 'none';
+                    }
+                }
             }
-        }
+        };
+
+        updateIcons(expandBtn); // Footer button
+        const headerExpand = container.querySelector('.chat-header .chat-expand-btn');
+        updateIcons(headerExpand); // Header button
     }
 
     if (expandBtn) {
@@ -339,11 +360,34 @@
 
     // Event Listeners
     sendBtn.addEventListener('click', sendMessage);
-    input.addEventListener('keypress', (e) => {
+    input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault(); // Prevent newline
             sendMessage();
         }
     });
+
+    // Wire up Header Buttons
+    const headerEl = document.getElementById('chat-header');
+    if (headerEl) {
+        const hExpand = headerEl.querySelector('.chat-expand-btn');
+        const hClose = headerEl.querySelector('.chat-close-btn');
+
+        if (hExpand) {
+            hExpand.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleExpand();
+            });
+        }
+
+        if (hClose) {
+            hClose.addEventListener('click', (e) => {
+                e.stopPropagation();
+                isOpen = false;
+                launcher.classList.remove('open');
+                window.classList.remove('open');
+            });
+        }
+    }
 
 })();

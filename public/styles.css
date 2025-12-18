@@ -139,17 +139,50 @@
 
 /* Header */
 .chat-header {
-  padding: 12px;
+  padding: 8px 16px;
   background: var(--chat-primary);
   color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .chat-title {
-  font-weight: 400;
+  font-weight: 600;
   font-size: 1rem;
+  flex: 1;
+}
+
+.chat-close-btn,
+.chat-expand-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.2s;
+  margin-left: 4px;
+}
+
+.chat-close-btn:hover,
+.chat-expand-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.chat-close-btn svg,
+.chat-expand-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: white;
+}
+
+/* Explicitly set fill for expand btn svg if it uses stroke */
+.chat-expand-btn svg {
+  fill: none;
+  stroke: white;
 }
 
 /* Clear Button (now in input area) */

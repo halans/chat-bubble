@@ -35,10 +35,10 @@ Configure the widget using `wrangler.toml` or `.dev.vars` (for local development
 | `OPENAI_API_KEY` | **Required**. Your OpenAI API Key. | - |
 | `OPENAI_MODEL` | The AI model to use (e.g., `gpt-3.5-turbo`, `gpt-4`). | `gpt-3.5-turbo` |
 | `SYSTEM_PROMPT` | Instructions for the AI's behavior. | "You are a helpful assistant." |
-| `THEME_COLOR` | Primary color for bubble and header. | `#4F46E5` |
-| `THEME_ACCENT_COLOR` | Accent color for icons and highlights. | `#EF4444` |
+| `THEME_COLOR` | Primary color for bubble and header. | `#43C76A` |
+| `THEME_ACCENT_COLOR` | Accent color for icons and highlights. | `#F72C25` |
 | `SHOW_HEADER` | Show or hide the "Assistant" header bar. | `true` |
-| `EXPLANATION_TEXT` | Custom text displayed in the explanation box. | (Feynman technique default) |
+| `EXPLANATION_TEXT` | Custom text displayed in the explanation box. | (You are a helpful assistant.) |
 | `FRONTEND_CENTERED`| Force the widget to open in centered mode by default. | `false` |
 | `FRONTEND_DEBUG_MODE` | Enable verbose console logging in the browser. | `false` |
 
