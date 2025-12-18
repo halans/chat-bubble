@@ -22,7 +22,9 @@ A modern, floating chat widget that can be easily embedded into any website. It 
 - **Smart Interface**: Floating bubble that expands into a chat window.
 - **Customizable Themes**: Configure primary and accent colors to match your brand.
 - **Markdown Support**: Bot responses are rendered with Markdown (code blocks, lists, headers).
-- **Persistence**: Chat history is saved locally, so conversations aren't lost on refresh.
+- **Chat Memory**: Conversations are automatically saved to the browser's `localStorage`, allowing users to close the page and return to their session later without losing context.
+- **Smart Error Handling**: Displays clear, specific error messages from the server (e.g., config errors, timeouts) directly in the chat interface.
+- **Resilient Backend**: Includes a 25-second timeout protection to prevent hanging request and ensure graceful failure handling.
 - **Context Awareness**: Sends recent conversation history to the AI for improved context.
 - **Expandable UI**: Toggle between a standard chat window and an immersive almost-full-screen mode.
 - **Control**: Clear history button and configurable header.
