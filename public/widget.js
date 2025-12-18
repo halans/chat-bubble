@@ -12,18 +12,35 @@
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = 'styles.css';
+
+    // Create Container (Hidden initially to prevent FOUC)
+    const container = document.createElement('div');
+    container.id = 'chat-widget-container';
+    container.className = 'chat-widget-container';
+    container.style.display = 'none'; // Hide until CSS loads
+    document.body.appendChild(container);
+
+    // Show widget when CSS is loaded
+    link.onload = () => {
+        container.style.display = '';
+    };
+    link.onerror = () => {
+        console.error('Failed to load chat widget styles');
+        container.style.display = ''; // Show anyway as fallback
+    };
     document.head.appendChild(link);
+
+    // Fallback: If CSS takes too long (e.g. 2s), show anyway
+    setTimeout(() => {
+        if (container.style.display === 'none') {
+            container.style.display = '';
+        }
+    }, 2000);
 
     // Inject Marked (Markdown Parser)
     const script = document.createElement('script');
     script.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
     document.head.appendChild(script);
-
-    // Create Container
-    const container = document.createElement('div');
-    container.id = 'chat-widget-container';
-    container.className = 'chat-widget-container';
-    document.body.appendChild(container);
 
     // Launcher Bubble
     const launcher = document.createElement('div');
