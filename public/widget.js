@@ -57,13 +57,13 @@
     window.innerHTML = `
         <div class="chat-header" id="chat-header">
             <div class="chat-title">Learning Assistant</div>
-            <div class="chat-close-btn">
+            <button class="chat-close-btn" type="button" aria-label="Close chat">
                 <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
-            </div>
-            <div class="chat-expand-btn">
+            </button>
+            <button class="chat-expand-btn" type="button" aria-label="Expand chat">
                 <svg class="icon-expand" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>
                 <svg class="icon-collapse" viewBox="0 0 24 24" style="display:none"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>
-            </div>
+            </button>
         </div>
         <div class="chat-messages" id="chat-messages">
             <div class="explanation-box">

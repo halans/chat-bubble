@@ -165,6 +165,12 @@
   border-radius: 50%;
   transition: background 0.2s;
   margin-left: 4px;
+
+  /* Reset button styles */
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: inherit;
 }
 
 .chat-close-btn:hover,
